@@ -13,6 +13,9 @@
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #e0ecfa;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .logo {
@@ -38,14 +41,25 @@
   font-weight: 600;
   color: #575756;
   cursor: pointer;
+  display: block;
+  margin-top: 16px;
 }
 
 .main {
   max-width: 480px;
   margin: 0 auto;
-  padding: 32px 20px;
-  text-align: center;
+  padding: 24px 20px 48px;
   color: #575756;
+  width: 100%;
+}
+
+.main h1 {
+  font-size: 22px;
+  margin: 4px 0 8px;
+}
+
+.main h2 {
+  font-size: 16px;
 }
 
 .tag {
@@ -58,6 +72,155 @@
   border-radius: 6px;
   padding: 3px 10px;
   margin-bottom: 12px;
+}
+
+.hero {
+  background: #11a2dd;
+  color: #fff;
+  border-radius: 16px;
+  padding: 24px 20px;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  color: #fff;
+}
+
+.heroLabel {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.85;
+}
+
+.sectionTitle {
+  font-weight: 700;
+  margin: 20px 0 10px;
+}
+
+.divider {
+  height: 1px;
+  background: #e0ecfa;
+  margin: 16px 0;
+}
+
+.stepsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stepItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 12px;
+  background: #e0ecfa;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.stepNum {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.stepContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.stepTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #575756;
+}
+
+.stepDesc {
+  font-size: 12px;
+  color: #83bce7;
+}
+
+.stepArrow {
+  color: #83bce7;
+  font-size: 18px;
+}
+
+.blogList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.blogCard {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #e0ecfa;
+  background: #fff;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  width: 100%;
+}
+
+.blogCardImg {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: #e0ecfa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.blogCardBody {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.blogCardTag {
+  font-size: 10px;
+  font-weight: 600;
+  color: #e64587;
+  text-transform: uppercase;
+}
+
+.blogCardTitle {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 3px 0;
+}
+
+.blogCardDate {
+  font-size: 11px;
+  color: #83bce7;
+}
+
+.btnGhost {
+  display: block;
+  width: 100%;
+  background: none;
+  color: #83bce7;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1.5px solid #83bce7;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 10px;
+  font-family: inherit;
 }
 
 .modalOverlay {
@@ -107,6 +270,7 @@
   align-items: center;
   gap: 4px;
   cursor: pointer;
+  font-family: inherit;
 }
 
 .profileBtn:hover {
@@ -117,16 +281,24 @@
   font-size: 26px;
 }
 
-.name {
-  font-size: 13px;
-  font-weight: 700;
+.role {
+  font-size: 12px;
+  font-weight: 600;
   color: #575756;
+  text-align: center;
 }
 
-.role {
-  font-size: 11px;
+.modalSkip {
+  display: block;
+  width: 100%;
+  margin-top: 14px;
+  background: none;
+  border: none;
   color: #83bce7;
-  text-align: center;
+  text-decoration: underline;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: inherit;
 }
 
 .progressBarTrack {
@@ -169,6 +341,11 @@
   margin-top: 16px;
 }
 
+.actionFinale .profileButton,
+.actionFinale .btnGhost {
+  color: #575756;
+}
+
 .evenementTrace {
   font-size: 11px;
   color: #11a2dd;
@@ -177,4 +354,159 @@
 
 .actionFinale .evenementTrace {
   color: #fff;
+}
+
+.kitSection {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kitItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: #e0ecfa;
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+.kitName {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.kitDesc {
+  font-size: 11px;
+  color: #83bce7;
+}
+
+.filterRow {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  margin: 12px 0;
+}
+
+.chip {
+  white-space: nowrap;
+  background: #e0ecfa;
+  border: 1.5px solid transparent;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #575756;
+  cursor: pointer;
+  font-family: inherit;
+  flex-shrink: 0;
+}
+
+.chipActive {
+  background: #11a2dd;
+  color: #fff;
+}
+
+.articleBanner {
+  background: #e0ecfa;
+  border-radius: 12px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  margin: 12px 0;
+}
+
+.accountHero {
+  background: linear-gradient(135deg, #11a2dd 0%, #83bce7 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 24px 20px;
+  margin-bottom: 16px;
+}
+
+.accountHero h1 {
+  color: #fff;
+}
+
+.accountAvatar {
+  font-size: 32px;
+}
+
+.statsRow {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.statBox {
+  flex: 1;
+  background: #fff;
+  border: 1px solid #e0ecfa;
+  border-radius: 10px;
+  padding: 12px 10px;
+  text-align: center;
+}
+
+.statNum {
+  font-size: 20px;
+  font-weight: 700;
+  color: #11a2dd;
+  display: block;
+}
+
+.statLabel {
+  font-size: 10px;
+  color: #575756;
+}
+
+.historyList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.historyItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #e0ecfa;
+}
+
+.historyIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.historyInfo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.historyTitle {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.historyDate {
+  font-size: 11px;
+  color: #83bce7;
+}
+
+.historyAmount {
+  font-size: 13px;
+  font-weight: 700;
+  color: #11a2dd;
 }

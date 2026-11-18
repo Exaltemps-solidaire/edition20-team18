@@ -1,11 +1,25 @@
 import { describe, expect, it } from "vitest";
 import {
   ETAPES_DON,
+  ETAPES_ENTREPRISE,
   estDerniereEtape,
+  etapesPourProfil,
   evenementTracePour,
   progressionPourcent,
-  utiliseParcoursDon,
 } from "./parcours";
+
+describe("etapesPourProfil", () => {
+  it("renvoie le parcours de don pour particulier, organisateur, famille et soignant", () => {
+    expect(etapesPourProfil("particulier")).toBe(ETAPES_DON);
+    expect(etapesPourProfil("organisateur")).toBe(ETAPES_DON);
+    expect(etapesPourProfil("famille")).toBe(ETAPES_DON);
+    expect(etapesPourProfil("soignant")).toBe(ETAPES_DON);
+  });
+
+  it("renvoie le parcours dédié pour entreprise", () => {
+    expect(etapesPourProfil("entreprise")).toBe(ETAPES_ENTREPRISE);
+  });
+});
 
 describe("progressionPourcent", () => {
   it("vaut 0% avant toute étape validée", () => {
@@ -32,20 +46,13 @@ describe("estDerniereEtape", () => {
 });
 
 describe("evenementTracePour", () => {
-  it("produit un identifiant d'événement stable par étape", () => {
-    expect(evenementTracePour("choix_forme")).toBe("etape_don · choix_forme");
-  });
-});
-
-describe("utiliseParcoursDon", () => {
-  it("est vraie pour particulier, organisateur et soignant", () => {
-    expect(utiliseParcoursDon("particulier")).toBe(true);
-    expect(utiliseParcoursDon("organisateur")).toBe(true);
-    expect(utiliseParcoursDon("soignant")).toBe(true);
+  it("préfixe etape_don pour les profils du parcours de don", () => {
+    expect(evenementTracePour("particulier", "choix_forme")).toBe("etape_don · choix_forme");
   });
 
-  it("est fausse pour famille et entreprise (parcours non encore fidèles au prototype)", () => {
-    expect(utiliseParcoursDon("famille")).toBe(false);
-    expect(utiliseParcoursDon("entreprise")).toBe(false);
+  it("préfixe etape_entreprise pour le profil entreprise", () => {
+    expect(evenementTracePour("entreprise", "choix_partenariat")).toBe(
+      "etape_entreprise · choix_partenariat"
+    );
   });
 });

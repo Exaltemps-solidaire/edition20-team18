@@ -1,3 +1,5 @@
+import type { ProfilId } from "./personas";
+
 export type Etape = {
   id: string;
   titre: string;
@@ -5,7 +7,7 @@ export type Etape = {
 };
 
 // Parcours de don du prototype (screen-2 → screen-5), partagé par les profils
-// particulier, organisateur et soignant : le prototype les route tous vers le même écran.
+// particulier, organisateur, famille et soignant : le prototype les route tous vers le même écran.
 export const ETAPES_DON: Etape[] = [
   {
     id: "choix_forme",
@@ -24,16 +26,43 @@ export const ETAPES_DON: Etape[] = [
   },
 ];
 
-export const ACTION_FINALE_DON = {
+// Parcours entreprise du prototype (screen-3 → screen-6).
+export const ETAPES_ENTREPRISE: Etape[] = [
+  {
+    id: "choix_partenariat",
+    titre: "Choisir la forme de partenariat",
+    description: "Mécénat financier, parrainage de course ou team building solidaire.",
+  },
+  {
+    id: "plaquette",
+    titre: "Télécharger la plaquette partenaires",
+    description: "Avantages fiscaux, visibilité et engagements.",
+  },
+  {
+    id: "references",
+    titre: "Découvrir les entreprises partenaires",
+    description: "Références, témoignages et résultats.",
+  },
+  {
+    id: "contact",
+    titre: "Contacter la responsable partenariats",
+    description: "Formulaire, rappel ou rendez-vous.",
+  },
+];
+
+export const KIT_ENTREPRISE = [
+  { nom: "Plaquette mécènes 2025", description: "Avantages fiscaux · Visibilité · Témoignages" },
+  { nom: "Rapport d'impact 2024", description: "Projets financés · Résultats de recherche" },
+];
+
+export const ACTION_FINALE = {
   titre: "🎉 Merci pour votre engagement !",
   description: "Votre geste finance directement la recherche pour guérir les enfants.",
   evenementId: "conversion · don_finalise",
 };
 
-const PROFILS_PARCOURS_DON = ["particulier", "organisateur", "soignant"] as const;
-
-export function utiliseParcoursDon(profilId: string): boolean {
-  return (PROFILS_PARCOURS_DON as readonly string[]).includes(profilId);
+export function etapesPourProfil(profilId: ProfilId): Etape[] {
+  return profilId === "entreprise" ? ETAPES_ENTREPRISE : ETAPES_DON;
 }
 
 export function progressionPourcent(etapeCourante: number, total: number): number {
@@ -46,6 +75,7 @@ export function estDerniereEtape(etapeCourante: number, total: number): boolean 
   return etapeCourante >= total;
 }
 
-export function evenementTracePour(etapeId: string): string {
-  return `etape_don · ${etapeId}`;
+export function evenementTracePour(profilId: ProfilId, etapeId: string): string {
+  const prefixe = profilId === "entreprise" ? "etape_entreprise" : "etape_don";
+  return `${prefixe} · ${etapeId}`;
 }

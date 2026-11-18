@@ -2,22 +2,25 @@ export type ProfilId = "particulier" | "entreprise" | "organisateur" | "famille"
 
 export type Persona = {
   id: ProfilId;
-  nom: string;
   role: string;
   icone: string;
 };
 
-// Une personne d'exemple par rôle du scénario retenu (PASSATION.md, section « Les utilisateurs : pas de connexion »).
+// Les 5 profils du prototype (modale « Qui êtes-vous ? ») : icône + rôle, sans nom propre.
 export const PERSONAS: Persona[] = [
-  { id: "particulier", nom: "Sophie Marchand", role: "Particulière ou testatrice", icone: "💛" },
-  { id: "entreprise", nom: "Julien Perrot", role: "Entreprise mécène", icone: "🤝" },
-  { id: "organisateur", nom: "Camille Dubreuil", role: "Organisatrice d'action solidaire", icone: "🏃" },
-  { id: "famille", nom: "Nadia Benali", role: "Famille touchée", icone: "💙" },
-  { id: "soignant", nom: "Dr Marc Lefèvre", role: "Soignant ou chercheur", icone: "🔬" },
+  { id: "particulier", role: "Particulier ou testateur", icone: "💛" },
+  { id: "entreprise", role: "Entreprise mécène", icone: "🤝" },
+  { id: "organisateur", role: "Organisateur d'action", icone: "🏃" },
+  { id: "famille", role: "Famille touchée", icone: "💙" },
+  { id: "soignant", role: "Soignant ou chercheur", icone: "🔬" },
 ];
 
 export function getPersonaById(id: string): Persona | undefined {
   return PERSONAS.find((p) => p.id === id);
+}
+
+export function evenementProfilSelectionne(profilId: ProfilId): string {
+  return `profil_selectionne · ${profilId}`;
 }
 
 // Le prototype n'affiche la fenêtre « Qui êtes-vous ? » qu'à l'accueil, pas dans le parcours.
