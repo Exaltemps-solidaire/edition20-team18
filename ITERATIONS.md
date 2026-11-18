@@ -28,7 +28,19 @@
 - **Fichiers prévus** : `frontend/` (écran accueil, sélection profil, routage), `.env.example`, `DEPLOIEMENT.md`.
 - **Tests unitaires prévus** : 1 à 3, sur la logique de sélection/validation de profil (pas sur le balisage).
 - **Étapes ajoutées à la démo** : ouvrir l'accueil → choisir un rôle → choisir un profil → arriver sur l'espace du profil.
-- **Bilan** : _à remplir en fin d'itération._
+- **Bilan** :
+  - Durée de codage réelle : 2 minutes (pas de dépassement).
+  - Critères satisfaits : les 3 — la fenêtre « Qui êtes-vous ? » propose les 5 personas d'exemple (une par profil, nom + rôle), le choix d'une personne navigue directement vers un écran de parcours placeholder nommé à son nom. Écran de sélection de profil non dupliqué : un seul écran « Qui êtes-vous ? » fusionne le nom de la personne et son profil, pour coller au prototype (une seule modale du même nom) sans ajouter un second écran hors budget.
+  - Reporté : rien pour cette itération ; le contenu réel du parcours (au-delà du placeholder) est prévu à l'itération 2, comme planifié.
+  - Ce que le harnais a bloqué ou refusé : rien. `./scripts/verifier-deployabilite.sh` : aucune borne, aucune alarme (hook eslint post-édition a bloqué une fois un apostrophe non échappé dans page.tsx, corrigé immédiatement).
+  - Incident relevé et corrigé pendant la vérification (hors codage, pendant le déploiement) : la CSP du `nginx.conf` repris du serveur ne déclarait pas de `script-src 'unsafe-inline'` ; Next.js embarque un script inline de bootstrap pour l'hydratation de son export statique, bloqué par la CSP par défaut — la page s'affichait mais aucun clic ne répondait (symptôme silencieux, sans erreur serveur, comme prévenu par `/srv/team18/CLAUDE.md`). Trouvé via Playwright (`page.on("pageerror")`) : React error #412 (hydratation). Corrigé en ajoutant `'unsafe-inline'` à `script-src`, image reconstruite et redéployée, démo rejouée avec succès.
+  - **Modifications** :
+    - `frontend/src/lib/personas.ts` (+ test) : les 5 personas d'exemple (nom, rôle, profil), `getPersonaById`, `shouldShowPersonaModal` — sert les 3 critères d'acceptation.
+    - `frontend/src/app/page.tsx`, `page.module.css`, `layout.tsx` : écran « Qui êtes-vous ? » et espace de parcours placeholder — sert les 3 critères d'acceptation.
+    - `frontend/nginx.conf` : en-têtes de sécurité + CSP (corrigée pour l'hydratation Next.js) — condition du déploiement, pas un critère d'acceptation en soi.
+    - `api/Dockerfile`, `frontend/Dockerfile` : images de base qualifiées `docker.io/library/…` (recette du serveur, étape 4).
+    - `podman-compose.yml`, `.env.example`, `DEPLOIEMENT.md` : contrat de déployabilité (DoD point 3).
+    - `e2e/demo.spec.ts` : étapes de la démo pour cette itération (hors DoD).
 
 ## Itération 2 : le parcours guidé jusqu'à l'action finale, avec événements tracés
 
