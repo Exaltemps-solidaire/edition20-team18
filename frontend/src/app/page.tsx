@@ -9,8 +9,8 @@ import {
   type ProfilId,
 } from "@/lib/personas";
 import {
-  ACTION_FINALE,
   KIT_ENTREPRISE,
+  actionFinalePourProfil,
   estDerniereEtape,
   etapesPourProfil,
   evenementTracePour,
@@ -55,6 +55,7 @@ export default function Home() {
   const etapes = profilId ? etapesPourProfil(profilId) : [];
   const total = etapes.length;
   const parcoursTermine = estDerniereEtape(etapeCourante, total);
+  const actionFinale = profilId ? actionFinalePourProfil(profilId) : undefined;
   const modaleVisible = shouldShowPersonaModal(ecran) && !modaleFermee;
   const article = articleId ? getArticleById(articleId) : undefined;
   const articlesFiltres = filtrerArticles(ARTICLES, filtreBlog);
@@ -161,6 +162,8 @@ export default function Home() {
           <p>
             {profilId === "entreprise"
               ? "Engagez vos équipes pour la recherche."
+              : profilId === "famille"
+              ? "Des ressources et un accompagnement pour les familles touchées, sans sollicitation de don."
               : "100 % des dons vont à la recherche contre les cancers des enfants."}
           </p>
 
@@ -209,17 +212,25 @@ export default function Home() {
             </div>
           )}
 
-          {parcoursTermine && (
+          {parcoursTermine && actionFinale && (
             <div className={styles.actionFinale}>
-              <h2>{ACTION_FINALE.titre}</h2>
-              <p>{ACTION_FINALE.description}</p>
-              <p className={styles.evenementTrace}>✓ Événement tracé : {ACTION_FINALE.evenementId}</p>
-              <button className={styles.profileButton} onClick={irCompte}>
-                Créer mon espace personnel
-              </button>
-              <button className={styles.btnGhost} onClick={irAccueil}>
-                Non merci, continuer sans compte
-              </button>
+              <h2>{actionFinale.titre}</h2>
+              <p>{actionFinale.description}</p>
+              <p className={styles.evenementTrace}>✓ Événement tracé : {actionFinale.evenementId}</p>
+              {profilId === "famille" ? (
+                <button className={styles.profileButton} onClick={irAccueil}>
+                  Retour à l&apos;accueil
+                </button>
+              ) : (
+                <>
+                  <button className={styles.profileButton} onClick={irCompte}>
+                    Créer mon espace personnel
+                  </button>
+                  <button className={styles.btnGhost} onClick={irAccueil}>
+                    Non merci, continuer sans compte
+                  </button>
+                </>
+              )}
             </div>
           )}
 

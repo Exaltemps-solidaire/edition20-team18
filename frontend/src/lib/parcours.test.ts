@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
+  ACTION_FINALE,
+  ACTION_FINALE_FAMILLE,
   ETAPES_DON,
   ETAPES_ENTREPRISE,
+  ETAPES_FAMILLE,
+  actionFinalePourProfil,
   estDerniereEtape,
   etapesPourProfil,
   evenementTracePour,
@@ -9,15 +13,31 @@ import {
 } from "./parcours";
 
 describe("etapesPourProfil", () => {
-  it("renvoie le parcours de don pour particulier, organisateur, famille et soignant", () => {
+  it("renvoie le parcours de don pour particulier, organisateur et soignant", () => {
     expect(etapesPourProfil("particulier")).toBe(ETAPES_DON);
     expect(etapesPourProfil("organisateur")).toBe(ETAPES_DON);
-    expect(etapesPourProfil("famille")).toBe(ETAPES_DON);
     expect(etapesPourProfil("soignant")).toBe(ETAPES_DON);
   });
 
   it("renvoie le parcours dédié pour entreprise", () => {
     expect(etapesPourProfil("entreprise")).toBe(ETAPES_ENTREPRISE);
+  });
+
+  it("renvoie le parcours dédié pour famille, sans sollicitation de don", () => {
+    expect(etapesPourProfil("famille")).toBe(ETAPES_FAMILLE);
+    expect(etapesPourProfil("famille")).not.toBe(ETAPES_DON);
+  });
+});
+
+describe("actionFinalePourProfil", () => {
+  it("renvoie l'action finale générique pour les profils donateurs", () => {
+    expect(actionFinalePourProfil("particulier")).toBe(ACTION_FINALE);
+    expect(actionFinalePourProfil("entreprise")).toBe(ACTION_FINALE);
+  });
+
+  it("renvoie une action finale dédiée, sans mention de don, pour la famille", () => {
+    expect(actionFinalePourProfil("famille")).toBe(ACTION_FINALE_FAMILLE);
+    expect(ACTION_FINALE_FAMILLE.evenementId).not.toContain("don_finalise");
   });
 });
 
@@ -54,5 +74,9 @@ describe("evenementTracePour", () => {
     expect(evenementTracePour("entreprise", "choix_partenariat")).toBe(
       "etape_entreprise · choix_partenariat"
     );
+  });
+
+  it("préfixe etape_famille pour le profil famille", () => {
+    expect(evenementTracePour("famille", "ressources")).toBe("etape_famille · ressources");
   });
 });
