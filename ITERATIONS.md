@@ -106,7 +106,27 @@
     - `e2e/demo.spec.ts` : étapes de démo mises à jour avec les nouveaux libellés et le nouvel événement final (hors DoD).
     - Déploiement : image frontend reconstruite et republiée (`localhost:5000/team18/frontend:dev`), `podman compose up -d --force-recreate` ; `localhost:8080/` et `localhost:8081/health` répondent 200 ; démo Playwright rejouée avec succès contre `localhost:8080`. Version 3 signalée à PM Lab.
 
-## Itération 4 : blog consolidé des actions solidaires, filtrable
+## Itération 4 : des personas génériques, sans noms propres
+
+- **Déclenchée par un retour du développeur** (pas une itération planifiée à l'avance) : retirer les noms nominatifs (Sophie Marchand, Camille Dubreuil…) de l'écran « Qui êtes-vous ? » et du parcours, pour rester générique.
+- ⚠️ **Écart signalé par rapport à la passation** : `PASSATION.md` demandait explicitement « une personne par rôle du scénario (les personas qui agissent), avec des données d'exemple » — donc un nom. Cette itération s'en écarte à la demande directe du développeur ; à signaler aux cadreurs si l'association doit voir des personas nommées au pitch.
+- **Dans le périmètre** :
+  - `personas.ts` : remplacer le champ `nom` par un libellé générique par profil (ex. « Particulier ou testateur », déjà le `role` existant) et retirer les noms propres des données ;
+  - écran « Qui êtes-vous ? » : les cartes n'affichent plus que l'icône et le rôle, plus de nom de personne ;
+  - parcours : le « Bonjour {nom} » devient un intitulé générique (ou disparaît), cohérent avec le ton du prototype qui ne nomme jamais la personne dans ses écrans de parcours.
+- **Hors périmètre** : aucun changement de logique de rôle, de progression ou d'événements tracés.
+- **Critères d'acceptation** (3 au plus) :
+  - Étant donné l'écran « Qui êtes-vous ? », quand il s'affiche, alors aucune carte ne montre de nom propre, seulement une icône et un rôle générique.
+  - Étant donné un profil choisi, quand on arrive sur le parcours, alors aucun nom propre n'apparaît à l'écran.
+  - Étant donné les tests unitaires de `personas.ts`, quand ils s'exécutent, alors ils vérifient le comportement par identifiant de profil, sans dépendre d'un nom nominatif.
+- **Hypothèse de l'équipe couverte** : aucune — ajustement de généricité demandé par le développeur, hors mesure d'hypothèse.
+- **Codage estimé** : 5 minutes.
+- **Fichiers prévus** : `frontend/src/lib/personas.ts` (+ test), `frontend/src/app/page.tsx`, `e2e/demo.spec.ts`.
+- **Tests unitaires prévus** : mise à jour des tests existants sur `personas.ts` (plus d'assertion sur un nom).
+- **Étapes ajoutées à la démo** : aucune nouvelle étape, mise à jour des libellés attendus (plus de nom propre).
+- **Bilan** : _à remplir en fin d'itération._
+
+## Itération 5 : blog consolidé des actions solidaires, filtrable
 
 - **Dans le périmètre** :
   - écran blog (screen-4) listant des actions solidaires d'exemple (données en dur), filtrables par profil et par thème, accessible depuis le parcours de don (« Voir les actions solidaires ») ;
@@ -124,9 +144,25 @@
 - **Étapes ajoutées à la démo** : ouvrir le blog depuis le parcours, appliquer un filtre, ouvrir un article.
 - **Bilan** : _à remplir en fin d'itération._
 
+## Itération 6 : parcours famille dédié, choix réels et retour en arrière corrigé
+
+- **Dans le périmètre** :
+  - parcours famille dédié (`ETAPES_FAMILLE`), sans aucune étape de don, conformément à `PASSATION.md` — tranche le conflit relevé en itération 3 ;
+  - étapes à choix réel (« Choisir la forme de mon don », « Choisir la forme de partenariat ») : options sélectionnables au lieu d'un unique bouton « Valider » ;
+  - retour en arrière corrigé : revient à l'étape précédente, pas à l'étape 1 ;
+  - lien « Voir les actions solidaires » promu plus tôt dans l'écran parcours (amélioration partielle du retour testeur sur le profil particulier).
+- **Hors périmètre** : menu dédié complet pour le profil particulier (« don mais pas que ») — ❓ portée non précisée par les cadreurs, reporté ; parcours soignant dédié — ❓ tension relevée mais non tranchée par les cadreurs, reporté.
+- **Critères d'acceptation** :
+  - Étant donné le profil famille sélectionné, quand le parcours se déroule, alors aucune étape ni action finale ne sollicite un don.
+  - Étant donné une étape à choix réel, quand elle s'affiche, alors plusieurs options sont sélectionnables, pas une simple validation.
+  - Étant donné une étape après la première, quand on clique « Étape précédente », alors on revient à l'étape qui précède, pas à l'étape 1.
+- **Tests unitaires** : `parcours.test.ts` — parcours famille sans étape de don, options présentes sur les étapes de choix. `npm test` : 29/29 passent.
+- **Étapes ajoutées à la démo** : `e2e/demo.spec.ts` mis à jour (clic sur l'option « Don unique » au lieu du bouton générique).
+- **Bilan** : fait hors cérémonie `/iteration <N>` à la demande du développeur (fix enchaînés en une session) ; `ITERATIONS.md` complété rétroactivement avant signal PM Lab.
+
 ## À venir (objectifs ordonnés, non détaillés)
 
-5. Parcours entreprise dédié (screen-3/6 : formes de partenariat, documents), à la place du placeholder actuel.
-6. Compte facultatif + espace personnel réel (screen-8 : historique de dons/actions), déclenché depuis l'écran de confirmation posé en itération 3.
-7. Bandeau discret remplaçant la fenêtre de sélection de profil sur les pages « bien référencées » (❓ à clarifier avec les cadreurs : quelles pages de l'app seront considérées comme telles en l'absence de vrai référencement, et comment le simuler sans l'empiler avec une bannière cookies qui n'existe pas non plus encore).
-8. Parcours famille dédié (❗️ bloqué par le conflit relevé en itération 3 : reprendre le parcours de don comme le fait le prototype, ou rester sans sollicitation de don comme l'exige la règle métier citée dans `PASSATION.md` — à trancher par les cadreurs avant de coder).
+7. Compte facultatif + espace personnel réel (screen-8 : historique de dons/actions), déclenché depuis l'écran de confirmation posé en itération 3.
+8. Bandeau discret remplaçant la fenêtre de sélection de profil sur les pages « bien référencées » (❓ à clarifier avec les cadreurs : quelles pages de l'app seront considérées comme telles en l'absence de vrai référencement, et comment le simuler sans l'empiler avec une bannière cookies qui n'existe pas non plus encore).
+9. Menu dédié pour le profil particulier/testateur, au-delà du don (❓ « don mais pas que » — contenu du menu à préciser par les cadreurs).
+10. Parcours soignant dédié, à l'image du parcours famille (❓ tension relevée par les testeurs mais pas tranchée : le soignant accompagne, il ne devrait peut-être pas être sollicité pour un don lui-même — à trancher par les cadreurs).
