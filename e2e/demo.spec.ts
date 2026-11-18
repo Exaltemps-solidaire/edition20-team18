@@ -17,7 +17,7 @@ test("Démo : le cas passant", async ({ page }) => {
   });
 
   await test.step("Je valide les étapes du parcours de don", async () => {
-    await page.getByText("Valider cette étape").click();
+    await page.getByRole("button", { name: "Don unique" }).click();
     await expect(page.getByText("✓ Événement tracé : etape_don · choix_forme")).toBeVisible();
     await page.getByText("Valider cette étape").click();
     await expect(page.getByText("✓ Événement tracé : etape_don · financement")).toBeVisible();

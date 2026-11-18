@@ -4,6 +4,9 @@ export type Etape = {
   id: string;
   titre: string;
   description: string;
+  // Présent uniquement sur les étapes qui proposent un vrai choix (ex. "Choisir la forme de mon don") :
+  // l'écran affiche ces options au lieu d'un simple bouton "Valider".
+  options?: string[];
 };
 
 // Parcours de don du prototype (screen-2 → screen-5), partagé par les profils
@@ -13,6 +16,7 @@ export const ETAPES_DON: Etape[] = [
     id: "choix_forme",
     titre: "Choisir la forme de mon don",
     description: "Don unique, don mensuel, legs et donations ou assurance-vie.",
+    options: ["Don unique", "Don mensuel", "Legs et donations", "Assurance-vie"],
   },
   {
     id: "financement",
@@ -32,6 +36,7 @@ export const ETAPES_ENTREPRISE: Etape[] = [
     id: "choix_partenariat",
     titre: "Choisir la forme de partenariat",
     description: "Mécénat financier, parrainage de course ou team building solidaire.",
+    options: ["Mécénat financier", "Parrainage de course", "Team building solidaire"],
   },
   {
     id: "plaquette",
@@ -52,11 +57,18 @@ export const ETAPES_ENTREPRISE: Etape[] = [
 
 // Parcours famille, distinct du prototype : PASSATION.md impose « aucune sollicitation de don »
 // pour ce profil, donc pas de réutilisation du parcours de don malgré le routage du prototype.
+// Retour terrain : les familles doivent néanmoins garder accès aux événements (via le blog,
+// déjà proposé sur l'écran parcours) et à la recherche financée, sans jamais passer par un don.
 export const ETAPES_FAMILLE: Etape[] = [
   {
     id: "ressources",
     titre: "Découvrir les ressources pour les familles",
     description: "Informations médicales, démarches et accompagnement au quotidien.",
+  },
+  {
+    id: "recherche",
+    titre: "Suivre les projets de recherche soutenus",
+    description: "Avancées scientifiques et résultats, à titre d'information uniquement.",
   },
   {
     id: "repit",

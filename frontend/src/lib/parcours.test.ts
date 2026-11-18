@@ -27,6 +27,23 @@ describe("etapesPourProfil", () => {
     expect(etapesPourProfil("famille")).toBe(ETAPES_FAMILLE);
     expect(etapesPourProfil("famille")).not.toBe(ETAPES_DON);
   });
+
+  it("donne accès à la recherche et aux événements pour la famille, sans aucune étape de don", () => {
+    expect(ETAPES_FAMILLE.some((e) => e.id === "recherche")).toBe(true);
+    expect(ETAPES_FAMILLE.some((e) => e.id === "finalisation")).toBe(false);
+  });
+});
+
+describe("étapes avec choix réel", () => {
+  it("propose des options sur l'étape de choix du don, pas seulement une validation", () => {
+    const etapeChoix = ETAPES_DON.find((e) => e.id === "choix_forme");
+    expect(etapeChoix?.options?.length).toBeGreaterThan(1);
+  });
+
+  it("propose des options sur l'étape de choix du partenariat entreprise", () => {
+    const etapeChoix = ETAPES_ENTREPRISE.find((e) => e.id === "choix_partenariat");
+    expect(etapeChoix?.options?.length).toBeGreaterThan(1);
+  });
 });
 
 describe("actionFinalePourProfil", () => {

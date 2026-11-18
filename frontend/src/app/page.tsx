@@ -76,6 +76,10 @@ export default function Home() {
     setEtapeCourante((e) => Math.min(e + 1, total));
   }
 
+  function etapePrecedente() {
+    setEtapeCourante((e) => Math.max(e - 1, 0));
+  }
+
   function irBlog() {
     setEcran("blog");
   }
@@ -181,6 +185,12 @@ export default function Home() {
             Étape {Math.min(etapeCourante + 1, total)} / {total}
           </p>
 
+          {!parcoursTermine && (
+            <button className={styles.btnGhost} onClick={irBlog}>
+              Voir les actions solidaires
+            </button>
+          )}
+
           {etapes.map((etape, index) =>
             index < etapeCourante ? (
               <div key={etape.id} className={styles.etapeValidee}>
@@ -193,9 +203,27 @@ export default function Home() {
               <div key={etape.id} className={styles.etapeCourante}>
                 <h2>{etape.titre}</h2>
                 <p>{etape.description}</p>
-                <button className={styles.profileButton} onClick={validerEtape}>
-                  Valider cette étape
-                </button>
+                {etape.options ? (
+                  <div className={styles.stepsList}>
+                    {etape.options.map((option) => (
+                      <button key={option} className={styles.stepItem} onClick={validerEtape}>
+                        <span className={styles.stepContent}>
+                          <span className={styles.stepTitle}>{option}</span>
+                        </span>
+                        <span className={styles.stepArrow}>›</span>
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <button className={styles.profileButton} onClick={validerEtape}>
+                    Valider cette étape
+                  </button>
+                )}
+                {index > 0 && (
+                  <button className={styles.modalSkip} onClick={etapePrecedente}>
+                    ‹ Étape précédente
+                  </button>
+                )}
               </div>
             ) : null
           )}
@@ -218,9 +246,14 @@ export default function Home() {
               <p>{actionFinale.description}</p>
               <p className={styles.evenementTrace}>✓ Événement tracé : {actionFinale.evenementId}</p>
               {profilId === "famille" ? (
-                <button className={styles.profileButton} onClick={irAccueil}>
-                  Retour à l&apos;accueil
-                </button>
+                <>
+                  <button className={styles.profileButton} onClick={irBlog}>
+                    Découvrir les événements
+                  </button>
+                  <button className={styles.btnGhost} onClick={irAccueil}>
+                    Retour à l&apos;accueil
+                  </button>
+                </>
               ) : (
                 <>
                   <button className={styles.profileButton} onClick={irCompte}>
@@ -232,12 +265,6 @@ export default function Home() {
                 </>
               )}
             </div>
-          )}
-
-          {!parcoursTermine && (
-            <button className={styles.btnGhost} onClick={irBlog}>
-              Voir les actions solidaires
-            </button>
           )}
         </main>
       )}
