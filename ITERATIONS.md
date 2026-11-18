@@ -44,6 +44,7 @@
 
 ## Itération 2 : le parcours guidé jusqu'à l'action finale, avec événements tracés
 
+- **Temps restant annoncé au début du codage** : 15 minutes (2026-11-18). ⚠️ Capacité insuffisante pour un tour de test PM Lab complet avant la fin du build (25 min nécessaires en théorie) ; le développeur a choisi explicitement de coder le plan complet quand même, risque assumé.
 - **Dans le périmètre** :
   - parcours guidé étape par étape pour le profil **organisateur** (celui du scénario de référence), avec barre de progression ;
   - chaque étape franchie déclenche un encadré « événement de conversion tracé » (pas d'implémentation analytique réelle, juste visible) ;
@@ -58,9 +59,23 @@
 - **Fichiers prévus** : `frontend/` (écran(s) de parcours, barre de progression, composant événement tracé), éventuellement `api/` si l'état du parcours doit être lu/écrit côté serveur.
 - **Tests unitaires prévus** : 1 à 3, sur la logique de progression (calcul de l'étape courante, déclenchement d'un événement).
 - **Étapes ajoutées à la démo** : poursuivre le parcours organisateur jusqu'à l'action finale, en vérifiant l'affichage des événements tracés à chaque étape.
-- **Bilan** : _à remplir en fin d'itération._
+- **Bilan** :
+  - Durée de codage réelle : 1 minute (pas de dépassement).
+  - Critères satisfaits : les 3 — la barre de progression reflète le nombre d'étapes validées (0 %, 67 %, 100 %), chaque étape validée affiche un encadré « 📊 Événement tracé » distinct, et la dernière étape amène l'écran d'action finale avec son propre événement tracé.
+  - Reporté : rien pour cette itération. Écart assumé par rapport au plan initial : les profils autres qu'organisateur ne redirigent **pas** vers son parcours (contrairement à ce que prévoyait la section « Hors périmètre ») — ils gardent l'écran placeholder de l'itération 1, pour rester dans le budget très réduit de cette itération (15 minutes annoncées). À reprendre si une itération future traite les autres profils.
+  - ⚠️ Point de vigilance signalé avant codage : le temps annoncé (15 min) ne couvrait pas un tour de test PM Lab complet (~25 min nécessaires). Le développeur a choisi de coder le plan complet quand même ; la version a été signalée sans attendre de retour de tour de test avant la fin du build annoncée.
+  - Ce que le harnais a bloqué ou refusé : rien. `./scripts/verifier-deployabilite.sh` : aucune borne, aucune alarme. `npm test` : 13 tests verts (2 api + 11 frontend, dont les 3 nouveaux sur `parcours.ts`).
+  - **Modifications** :
+    - `frontend/src/lib/parcours.ts` (+ test) : étapes du parcours organisateur, calcul de progression (`progressionPourcent`), détection de dernière étape (`estDerniereEtape`), identifiant d'événement tracé (`evenementTracePour`) — sert les 3 critères d'acceptation.
+    - `frontend/src/app/page.tsx` : rendu du parcours organisateur (barre de progression, étapes validées avec encadré événement tracé, étape courante avec bouton de validation, écran d'action finale) ; les autres profils gardent le placeholder de l'itération 1 — sert les 3 critères d'acceptation.
+    - `frontend/src/app/page.module.css` : styles de la barre de progression, des encadrés d'étape et de l'écran d'action finale.
+    - `e2e/demo.spec.ts` : étapes de la démo validant la progression jusqu'à l'action finale (hors DoD).
 
 ---
+
+## Itération 3 (proposée) : stabilisation pour le pitch
+
+⚠️ Avec seulement 15 minutes annoncées au début de l'itération 2 (dont une partie déjà consommée par le déploiement et la vérification), il ne reste probablement plus de capacité pour une itération fonctionnelle complète (codage + publication + tour de test). Je propose que la suite, si le temps restant le permet encore, se limite à une stabilisation : revérifier `$URL_PUBLIQUE/health` et `/sante`, rejouer la démo contre l'URL publique, corriger un bug bloquant éventuel signalé par l'équipe — sans ajouter de nouveau périmètre. À confirmer avec le développeur au prochain `/iteration 3`, en redemandant le temps restant.
 
 ## À venir (objectifs ordonnés, non détaillés)
 

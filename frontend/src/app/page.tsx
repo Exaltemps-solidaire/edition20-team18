@@ -2,6 +2,13 @@
 
 import { useState } from "react";
 import { PERSONAS, getPersonaById, shouldShowPersonaModal, type ProfilId } from "@/lib/personas";
+import {
+  ACTION_FINALE_ORGANISATEUR,
+  ETAPES_ORGANISATEUR,
+  estDerniereEtape,
+  evenementTracePour,
+  progressionPourcent,
+} from "@/lib/parcours";
 import styles from "./page.module.css";
 
 type Ecran = "accueil" | "parcours";
@@ -9,13 +16,21 @@ type Ecran = "accueil" | "parcours";
 export default function Home() {
   const [ecran, setEcran] = useState<Ecran>("accueil");
   const [profilId, setProfilId] = useState<ProfilId | null>(null);
+  const [etapeCourante, setEtapeCourante] = useState(0);
 
   const persona = profilId ? getPersonaById(profilId) : undefined;
   const modaleVisible = shouldShowPersonaModal(ecran) || profilId === null;
+  const total = ETAPES_ORGANISATEUR.length;
+  const parcoursTermine = estDerniereEtape(etapeCourante, total);
 
   function choisirPersona(id: ProfilId) {
     setProfilId(id);
+    setEtapeCourante(0);
     setEcran("parcours");
+  }
+
+  function validerEtape() {
+    setEtapeCourante((e) => Math.min(e + 1, total));
   }
 
   return (
@@ -33,7 +48,51 @@ export default function Home() {
         </button>
       </header>
 
-      {ecran === "parcours" && persona && (
+      {ecran === "parcours" && persona && profilId === "organisateur" && (
+        <main className={styles.main}>
+          <p className={styles.tag}>{persona.role}</p>
+          <h1>Bonjour {persona.nom}</h1>
+
+          <div className={styles.progressBarTrack}>
+            <div
+              className={styles.progressBarFill}
+              style={{ width: `${progressionPourcent(etapeCourante, total)}%` }}
+            />
+          </div>
+          <p>{progressionPourcent(etapeCourante, total)}% du parcours</p>
+
+          {ETAPES_ORGANISATEUR.map((etape, index) =>
+            index < etapeCourante ? (
+              <div key={etape.id} className={styles.etapeValidee}>
+                <p>✅ {etape.titre}</p>
+                <p className={styles.evenementTrace}>
+                  📊 Événement tracé : {evenementTracePour(etape.id)}
+                </p>
+              </div>
+            ) : index === etapeCourante && !parcoursTermine ? (
+              <div key={etape.id} className={styles.etapeCourante}>
+                <h2>{etape.titre}</h2>
+                <p>{etape.description}</p>
+                <button className={styles.profileButton} onClick={validerEtape}>
+                  Valider cette étape
+                </button>
+              </div>
+            ) : null
+          )}
+
+          {parcoursTermine && (
+            <div className={styles.actionFinale}>
+              <h2>{ACTION_FINALE_ORGANISATEUR.titre}</h2>
+              <p>{ACTION_FINALE_ORGANISATEUR.description}</p>
+              <p className={styles.evenementTrace}>
+                📊 Événement tracé : {evenementTracePour("action_finale")}
+              </p>
+            </div>
+          )}
+        </main>
+      )}
+
+      {ecran === "parcours" && persona && profilId !== "organisateur" && (
         <main className={styles.main}>
           <p className={styles.tag}>{persona.role}</p>
           <h1>Bonjour {persona.nom}</h1>

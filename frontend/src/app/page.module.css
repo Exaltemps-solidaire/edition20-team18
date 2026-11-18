@@ -128,3 +128,53 @@
   color: #83bce7;
   text-align: center;
 }
+
+.progressBarTrack {
+  background: #e0ecfa;
+  border-radius: 20px;
+  height: 10px;
+  overflow: hidden;
+  margin: 16px 0 4px;
+}
+
+.progressBarFill {
+  background: #11a2dd;
+  height: 100%;
+  border-radius: 20px;
+  transition: width 0.3s ease;
+}
+
+.etapeValidee {
+  background: #e0ecfa;
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  text-align: left;
+}
+
+.etapeCourante {
+  background: #fff;
+  border: 2px solid #11a2dd;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 16px;
+  text-align: left;
+}
+
+.actionFinale {
+  background: #f29ec1;
+  color: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.evenementTrace {
+  font-size: 11px;
+  color: #11a2dd;
+  margin-top: 4px;
+}
+
+.actionFinale .evenementTrace {
+  color: #fff;
+}
