@@ -1,0 +1,130 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-geist-sans), sans-serif;
+  background: #f0f4f8;
+}
+
+.header {
+  background: #fff;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e0ecfa;
+}
+
+.logo {
+  font-weight: 700;
+  color: #11a2dd;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo span {
+  font-size: 11px;
+  font-weight: 400;
+  color: #575756;
+}
+
+.profileButton {
+  background: #e0ecfa;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #575756;
+  cursor: pointer;
+}
+
+.main {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 32px 20px;
+  text-align: center;
+  color: #575756;
+}
+
+.tag {
+  display: inline-block;
+  background: #f29ec1;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 6px;
+  padding: 3px 10px;
+  margin-bottom: 12px;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 162, 221, 0.18);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modalCard {
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  padding: 24px 20px 36px;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+.modalCard h2 {
+  font-size: 18px;
+  color: #575756;
+  margin-bottom: 6px;
+}
+
+.modalCard p {
+  font-size: 13px;
+  color: #83bce7;
+  margin-bottom: 20px;
+}
+
+.profileGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.profileBtn {
+  background: #e0ecfa;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 14px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.profileBtn:hover {
+  border-color: #11a2dd;
+}
+
+.icon {
+  font-size: 26px;
+}
+
+.name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #575756;
+}
+
+.role {
+  font-size: 11px;
+  color: #83bce7;
+  text-align: center;
+}
