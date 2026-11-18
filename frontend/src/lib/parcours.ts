@@ -4,28 +4,37 @@ export type Etape = {
   description: string;
 };
 
-export const ETAPES_ORGANISATEUR: Etape[] = [
+// Parcours de don du prototype (screen-2 → screen-5), partagé par les profils
+// particulier, organisateur et soignant : le prototype les route tous vers le même écran.
+export const ETAPES_DON: Etape[] = [
   {
-    id: "definir",
-    titre: "Je définis mon action solidaire",
-    description: "Choisissez le format : course, vente, événement caritatif…",
+    id: "choix_forme",
+    titre: "Choisir la forme de mon don",
+    description: "Don unique, don mensuel, legs et donations ou assurance-vie.",
   },
   {
-    id: "equipe",
-    titre: "Je rassemble mon équipe",
-    description: "Invitez des bénévoles à vous rejoindre.",
+    id: "financement",
+    titre: "Découvrir ce que finance mon don",
+    description: "Les projets de recherche soutenus et leurs résultats.",
   },
   {
-    id: "collecte",
-    titre: "Je lance ma collecte",
-    description: "Ouvrez la cagnotte et partagez-la autour de vous.",
+    id: "finalisation",
+    titre: "Finaliser mon don",
+    description: "Formulaire sécurisé iRaiser et reçu fiscal.",
   },
 ];
 
-export const ACTION_FINALE_ORGANISATEUR = {
-  titre: "Je suis prêt·e à agir",
-  description: "Contactez Imagine for Margo pour être accompagné·e dans votre action.",
+export const ACTION_FINALE_DON = {
+  titre: "🎉 Merci pour votre engagement !",
+  description: "Votre geste finance directement la recherche pour guérir les enfants.",
+  evenementId: "conversion · don_finalise",
 };
+
+const PROFILS_PARCOURS_DON = ["particulier", "organisateur", "soignant"] as const;
+
+export function utiliseParcoursDon(profilId: string): boolean {
+  return (PROFILS_PARCOURS_DON as readonly string[]).includes(profilId);
+}
 
 export function progressionPourcent(etapeCourante: number, total: number): number {
   if (total <= 0) return 0;
@@ -38,5 +47,5 @@ export function estDerniereEtape(etapeCourante: number, total: number): boolean 
 }
 
 export function evenementTracePour(etapeId: string): string {
-  return `evenement_trace:${etapeId}`;
+  return `etape_don · ${etapeId}`;
 }

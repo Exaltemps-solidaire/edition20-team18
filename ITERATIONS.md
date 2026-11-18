@@ -1,12 +1,13 @@
 # Plan d'itérations — Imagine for Margo
 
-**Plan validé le 2026-11-18** par le développeur.
+**Replanifié le 2026-11-18** par l'agent, à la demande du développeur (temps illimité annoncé) — remplace le plan précédent.
 
-- **Source du plan** : proposé par l'agent (aucun plan d'itérations ni priorisation fournis par la squad dans la passation — `cadrage/2-idees-priorisees.md` et `cadrage/6-plan-de-livraison.md` sont vides).
-- **Temps restant annoncé** : 60 minutes (répondu le 2026-11-18).
-- **Durée d'un tour de test PM Lab** : 10 minutes (valeur par défaut, le développeur ne savait pas).
-- **Capacité estimée** : une itération coûte au moins 10 min de codage + ~5 min de publication + 10 min de tour de test ≈ 25 min. Avec 60 minutes, la capacité tient environ **2 itérations complètes**, avec peu de marge pour une troisième.
-- ✂️ **Hors périmètre de ce build** (reporté en « À venir », à reprioriser si le temps restant augmente) : le blog consolidé, le compte facultatif + espace personnel, et le bandeau discret SEO. Ce sont les points 2, 3 et 4 du plan de la squad (`PASSATION.md`) — je ne garde que le point 1 (sélection de profil + parcours guidé), qui est aussi la première hypothèse à vérifier (« 0 abandon étape 1 »).
+- **Source du plan** : proposé par l'agent, dans l'ordre du plan de livraison de la squad (`PASSATION.md` → « Notre plan de livraison », repris aussi dans `cadrage/6-plan-de-livraison.md`, lui non vide malgré ce qu'indiquait le bilan précédent) : 1) parcours par profil, 2) blog, 3) compte + espace personnel, 4) bandeau discret SEO. `cadrage/2-idees-priorisees.md` reste vide (pas de vote consolidé entre les 4 idées concurrentes), donc aucune reprise telle quelle d'un plan d'itérations formel de PM Lab.
+- **Temps restant annoncé** : illimité (répondu le 2026-11-18). La capacité n'est donc pas la contrainte limitante ; les règles de taille (10 min de codage max par itération, ~5 écrans) restent appliquées telles quelles.
+- **Durée d'un tour de test PM Lab** : 10 minutes (valeur par défaut, non précisée par le développeur).
+- **Hors périmètre de ce build** : rien n'est coupé faute de temps. Un point reste bloqué en attente de clarification, pas par manque de capacité :
+  - ❗️ **Conflit relevé dans la passation** : le prototype (`prototype/index.html`) route les profils *particulier*, *organisateur* et *soignant* vers le même parcours de don (screen-2/5/7). Mais `PASSATION.md` précise une règle métier : « le parcours des familles ne contient aucune sollicitation de don ». Or le prototype route aussi le profil **famille** vers ce même parcours de don — ce qui contredit directement cette règle. Je ne tranche pas seul : le parcours famille reste au placeholder de l'itération 1 jusqu'à clarification des cadreurs (voir item 8 de la section « À venir »).
+- **Note sur l'état du dépôt** : à la demande du développeur, ce plan remplace le brouillon d'itération 3 précédent (jamais codé) et celui-ci en reprend l'essentiel (fidélité au prototype), affiné avec le contenu exact du prototype relu pour cette replanification (titres d'étapes, textes des écrans de don, de confirmation et d'espace personnel). `RETRO-HARNAIS.md`, non commité et rédigé pour seulement 2 itérations, reste tel quel : il n'est pas du ressort de cette commande et sera à refaire en fin de hackathon (`/retro-harnais`).
 
 ---
 
@@ -73,13 +74,59 @@
 
 ---
 
-## Itération 3 (proposée) : stabilisation pour le pitch
+## Itération 3 : le parcours de don fidèle au prototype (particulier, organisateur, soignant)
 
-⚠️ Avec seulement 15 minutes annoncées au début de l'itération 2 (dont une partie déjà consommée par le déploiement et la vérification), il ne reste probablement plus de capacité pour une itération fonctionnelle complète (codage + publication + tour de test). Je propose que la suite, si le temps restant le permet encore, se limite à une stabilisation : revérifier `$URL_PUBLIQUE/health` et `/sante`, rejouer la démo contre l'URL publique, corriger un bug bloquant éventuel signalé par l'équipe — sans ajouter de nouveau périmètre. À confirmer avec le développeur au prochain `/iteration 3`, en redemandant le temps restant.
+- **Temps restant annoncé au début du codage** : illimité (2026-11-18, 17:05).
+- **Dans le périmètre** :
+  - remplacer le parcours « organisateur » inventé à l'itération 2 (« définir mon action » / « équipe » / « collecte ») par le parcours de don du prototype (screen-2 → screen-5 → screen-7), partagé par les profils **particulier, organisateur et soignant** — le prototype route lui-même ces trois profils vers le même écran, on ne réinvente pas un parcours distinct ;
+  - 3 étapes reprises telles quelles du prototype : « Choisir la forme de mon don » (don ponctuel / mensuel / legs et donations), « Découvrir ce que finance mon don », « Finaliser mon don » ;
+  - écran d'action finale conforme au screen-7 : message de remerciement, puis proposition « Créer mon espace personnel » (bouton affiché, sans création réelle — l'espace personnel réel est prévu en itération 6), avec son propre événement tracé ;
+  - style des encadrés d'événement tracé conforme au prototype (coche verte, libellé « ✓ Événement tracé : … »).
+- **Hors périmètre** :
+  - le profil **famille** garde le placeholder de l'itération 1, le temps de clarifier le conflit relevé ci-dessus (❗️) ;
+  - le parcours **entreprise** (screen-3/6, formes de partenariat distinctes) reste hors périmètre — prévu en itération 5 ;
+  - la création de compte réelle et l'espace personnel (screen-8) sont hors périmètre ici — prévus en itération 6.
+- **Critères d'acceptation** (3 au plus) :
+  - Étant donné un profil particulier, organisateur ou soignant choisi, quand on arrive sur le parcours, alors les 3 étapes affichées sont, dans cet ordre, « Choisir la forme de mon don », « Découvrir ce que finance mon don », « Finaliser mon don ».
+  - Étant donné une étape validée, quand elle s'affiche comme faite, alors l'encadré d'événement tracé reprend le style du prototype (coche verte, libellé « Événement tracé : … »).
+  - Étant donné la dernière étape validée, quand l'écran d'action finale apparaît, alors il affiche le message de remerciement et un bouton « Créer mon espace personnel » (sans action réelle), avec son propre événement tracé.
+- **Hypothèse de l'équipe couverte** : la même qu'à l'itération 2 (sélecteur de profil → 0 abandon étape 1) — cette itération corrige la fidélité au prototype validé par l'association, elle ne change pas l'hypothèse testée.
+- **Codage estimé** : 10 minutes.
+- **Fichiers prévus** : `frontend/src/lib/parcours.ts` (+ test), `frontend/src/app/page.tsx`, `page.module.css`, `e2e/demo.spec.ts`.
+- **Tests unitaires prévus** : mise à jour des tests existants sur `parcours.ts` (nouveau contenu des étapes, même logique de progression/événements).
+- **Étapes ajoutées à la démo** : parcourir le parcours de don jusqu'à l'écran de confirmation, pour le profil organisateur (ou particulier/soignant).
+- **Bilan** :
+  - Durée de codage réelle : 2 minutes (pas de dépassement).
+  - Critères satisfaits : les 3 — les profils particulier, organisateur et soignant affichent désormais « Choisir la forme de mon don », « Découvrir ce que finance mon don », « Finaliser mon don », dans cet ordre ; chaque étape validée affiche l'encadré d'événement tracé au format du prototype (`✓ Événement tracé : …`) ; l'écran d'action finale affiche « 🎉 Merci pour votre engagement ! », son événement `conversion · don_finalise`, et un bouton « Créer mon espace personnel » (sans action réelle, comme prévu hors périmètre).
+  - Reporté : rien pour cette itération. Famille et entreprise restent au placeholder de l'itération 1, comme prévu (en attente de clarification pour famille, itération 5 planifiée pour entreprise).
+  - Ce que le harnais a bloqué ou refusé : rien. `npm test` : 15 tests verts (2 api + 13 frontend, dont les 2 nouveaux sur `utiliseParcoursDon`). `./scripts/verifier-deployabilite.sh --construire` : aucune borne ; Docker absent sur la machine (podman utilisé à la place, construction faite manuellement selon la recette du `/CLAUDE.md` du serveur), alarme non bloquante.
+  - **Modifications** :
+    - `frontend/src/lib/parcours.ts` (+ test) : `ETAPES_DON` (3 étapes fidèles au prototype), `ACTION_FINALE_DON`, `utiliseParcoursDon` — sert les 3 critères d'acceptation.
+    - `frontend/src/app/page.tsx` : parcours de don affiché pour particulier/organisateur/soignant via `utiliseParcoursDon`, libellé de progression « Étape X / Y », icône ✓ sur les événements tracés, bouton « Créer mon espace personnel » sur l'action finale — sert les 3 critères d'acceptation.
+    - `e2e/demo.spec.ts` : étapes de démo mises à jour avec les nouveaux libellés et le nouvel événement final (hors DoD).
+    - Déploiement : image frontend reconstruite et republiée (`localhost:5000/team18/frontend:dev`), `podman compose up -d --force-recreate` ; `localhost:8080/` et `localhost:8081/health` répondent 200 ; démo Playwright rejouée avec succès contre `localhost:8080`. Version 3 signalée à PM Lab.
+
+## Itération 4 : blog consolidé des actions solidaires, filtrable
+
+- **Dans le périmètre** :
+  - écran blog (screen-4) listant des actions solidaires d'exemple (données en dur), filtrables par profil et par thème, accessible depuis le parcours de don (« Voir les actions solidaires ») ;
+  - ouverture d'un article (screen-4-article, ex. Marathon de Lyon 2025) ;
+  - un événement de conversion tracé à chaque filtre appliqué et à chaque ouverture d'article.
+- **Hors périmètre** : recherche texte libre, pagination réelle, contenu éditorial réel (4-5 articles d'exemple suffisent).
+- **Critères d'acceptation** (3 au plus) :
+  - Étant donné l'écran blog, quand il charge, alors une liste d'articles d'exemple s'affiche avec des filtres par profil et par thème.
+  - Étant donné un filtre appliqué, quand la liste se met à jour, alors un événement de conversion tracé est visible.
+  - Étant donné un article ouvert, quand l'écran article s'affiche, alors son propre événement tracé est visible.
+- **Hypothèse de l'équipe couverte** : « un blog consolidé avec filtres permettrait de relier chaque article consulté à un geste mesurable » — mesure : ≥ 1 événement tracé par parcours de recherche.
+- **Codage estimé** : 10 minutes.
+- **Fichiers prévus** : `frontend/src/lib/blog.ts` (+ test), `frontend/src/app/page.tsx` (nouvel écran « blog »), `page.module.css`, `e2e/demo.spec.ts`.
+- **Tests unitaires prévus** : 1 à 3, sur la logique de filtrage et le déclenchement d'événement.
+- **Étapes ajoutées à la démo** : ouvrir le blog depuis le parcours, appliquer un filtre, ouvrir un article.
+- **Bilan** : _à remplir en fin d'itération._
 
 ## À venir (objectifs ordonnés, non détaillés)
 
-1. Blog consolidé des actions solidaires, filtrable par public et par thème, avec événement de conversion tracé par recherche/ouverture d'article.
-2. Compte facultatif + espace personnel (historique d'actions/dons) en fin de parcours.
-3. Bandeau discret remplaçant la fenêtre de sélection de profil sur les pages bien référencées (sans s'empiler avec la bannière cookies).
-4. Parcours dédiés testateur et entreprise (actuellement redirigés vers le parcours organisateur/particulier).
+5. Parcours entreprise dédié (screen-3/6 : formes de partenariat, documents), à la place du placeholder actuel.
+6. Compte facultatif + espace personnel réel (screen-8 : historique de dons/actions), déclenché depuis l'écran de confirmation posé en itération 3.
+7. Bandeau discret remplaçant la fenêtre de sélection de profil sur les pages « bien référencées » (❓ à clarifier avec les cadreurs : quelles pages de l'app seront considérées comme telles en l'absence de vrai référencement, et comment le simuler sans l'empiler avec une bannière cookies qui n'existe pas non plus encore).
+8. Parcours famille dédié (❗️ bloqué par le conflit relevé en itération 3 : reprendre le parcours de don comme le fait le prototype, ou rester sans sollicitation de don comme l'exige la règle métier citée dans `PASSATION.md` — à trancher par les cadreurs avant de coder).

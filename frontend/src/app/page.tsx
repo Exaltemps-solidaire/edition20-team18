@@ -3,11 +3,12 @@
 import { useState } from "react";
 import { PERSONAS, getPersonaById, shouldShowPersonaModal, type ProfilId } from "@/lib/personas";
 import {
-  ACTION_FINALE_ORGANISATEUR,
-  ETAPES_ORGANISATEUR,
+  ACTION_FINALE_DON,
+  ETAPES_DON,
   estDerniereEtape,
   evenementTracePour,
   progressionPourcent,
+  utiliseParcoursDon,
 } from "@/lib/parcours";
 import styles from "./page.module.css";
 
@@ -20,7 +21,7 @@ export default function Home() {
 
   const persona = profilId ? getPersonaById(profilId) : undefined;
   const modaleVisible = shouldShowPersonaModal(ecran) || profilId === null;
-  const total = ETAPES_ORGANISATEUR.length;
+  const total = ETAPES_DON.length;
   const parcoursTermine = estDerniereEtape(etapeCourante, total);
 
   function choisirPersona(id: ProfilId) {
@@ -48,10 +49,11 @@ export default function Home() {
         </button>
       </header>
 
-      {ecran === "parcours" && persona && profilId === "organisateur" && (
+      {ecran === "parcours" && persona && profilId && utiliseParcoursDon(profilId) && (
         <main className={styles.main}>
           <p className={styles.tag}>{persona.role}</p>
           <h1>Bonjour {persona.nom}</h1>
+          <p>100 % des dons vont à la recherche contre les cancers des enfants.</p>
 
           <div className={styles.progressBarTrack}>
             <div
@@ -59,14 +61,14 @@ export default function Home() {
               style={{ width: `${progressionPourcent(etapeCourante, total)}%` }}
             />
           </div>
-          <p>{progressionPourcent(etapeCourante, total)}% du parcours</p>
+          <p>Étape {Math.min(etapeCourante + 1, total)} / {total}</p>
 
-          {ETAPES_ORGANISATEUR.map((etape, index) =>
+          {ETAPES_DON.map((etape, index) =>
             index < etapeCourante ? (
               <div key={etape.id} className={styles.etapeValidee}>
                 <p>✅ {etape.titre}</p>
                 <p className={styles.evenementTrace}>
-                  📊 Événement tracé : {evenementTracePour(etape.id)}
+                  ✓ Événement tracé : {evenementTracePour(etape.id)}
                 </p>
               </div>
             ) : index === etapeCourante && !parcoursTermine ? (
@@ -82,17 +84,20 @@ export default function Home() {
 
           {parcoursTermine && (
             <div className={styles.actionFinale}>
-              <h2>{ACTION_FINALE_ORGANISATEUR.titre}</h2>
-              <p>{ACTION_FINALE_ORGANISATEUR.description}</p>
+              <h2>{ACTION_FINALE_DON.titre}</h2>
+              <p>{ACTION_FINALE_DON.description}</p>
               <p className={styles.evenementTrace}>
-                📊 Événement tracé : {evenementTracePour("action_finale")}
+                ✓ Événement tracé : {ACTION_FINALE_DON.evenementId}
               </p>
+              <button className={styles.profileButton}>
+                Créer mon espace personnel
+              </button>
             </div>
           )}
         </main>
       )}
 
-      {ecran === "parcours" && persona && profilId !== "organisateur" && (
+      {ecran === "parcours" && persona && profilId && !utiliseParcoursDon(profilId) && (
         <main className={styles.main}>
           <p className={styles.tag}>{persona.role}</p>
           <h1>Bonjour {persona.nom}</h1>
